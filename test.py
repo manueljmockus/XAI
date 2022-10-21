@@ -71,11 +71,22 @@ svmClassifier.fit(data_train, labels_train)
 prediction = svmClassifier.predict(data_test)
 enemies = []
 labels = []
-ran = np.arange(1,11)/10
-n_list = np.arange(10,101,10)
-for i in range(len(n_list)):
-    print(i)
-    enemy = GrowingSpheres(svmClassifier, obs, ran[i], n_list[i])
-    enemies.append(enemy)
-    labels.append("m = " + str(ran[i]) +", n = "+ str(n_list[i]))
+ran = np.arange(1, 11, 2)/2
+n_list = np.arange(10,101,30)
+for i in range(len(ran)):
+    for j in range(len(n_list)):
+        print(i)
+        enemy = GrowingSpheres(svmClassifier, obs, ran[i], n_list[j])
+        enemies.append(enemy)
+        labels.append("m = " + str(ran[i]) +", n = "+ str(n_list[j]))
+    
 plotEverything(data_test,prediction,svmClassifier,'SVM', obs, enemies, labels)
+
+def distances(obs,enemies):
+    dist = []
+    for enemy in enemies: 
+        dist.append(np.linalg.norm(obs - enemy))
+    return dist
+ 
+dist = distances(obs,enemies)
+print(dist)
